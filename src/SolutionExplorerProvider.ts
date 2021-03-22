@@ -117,9 +117,15 @@ export class SolutionExplorerProvider extends vscode.Disposable implements vscod
 		this.children = [];
 		let solutionPaths = await Utilities.searchFilesInDir(this.workspaceRoot, '.sln');
     let altFolders = SolutionExplorerConfiguration.getAlternativeSolutionFolders();
+    let filteredSolution = SolutionExplorerConfiguration.getFilteredSolution();
+
     for (let i = 0; i < altFolders.length; i++) {
       let altSolutionPaths = await Utilities.searchFilesInDir(path.join(this.workspaceRoot, altFolders[i]), '.sln');
       solutionPaths = [ ...solutionPaths, ...altSolutionPaths]
+    }
+
+    if (filteredSolution !== '') {
+      solutionPaths = solutionPaths.filter(s => path.basename(s) === `${filteredSolution}.sln`);
     }
 
     if (solutionPaths.length <= 0) {

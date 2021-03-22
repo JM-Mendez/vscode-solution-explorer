@@ -8,6 +8,7 @@ const SolutionExplorerIconsName = 'solutionExplorerIcons';
 const ShowOutputChannelName = 'showOutputChannel';
 const NetcoreIgnoreName = 'netcoreIgnore';
 const AlternativeSolutionFoldersName = 'altSolutionFolders';
+const FilteredSolution = 'filteredSolution';
 const XmlSpacesName = 'xmlspaces';
 const XmlClosingTagSpace = 'xmlClosingTagSpace';
 const Win32EncodingName = 'win32Encoding';
@@ -58,6 +59,10 @@ export function getNetCoreIgnore(): string[] {
 
 export function getAlternativeSolutionFolders(): string[] {
     return config.get<string[]>(AlternativeSolutionFoldersName, [ "src" ]);
+}
+
+export function getFilteredSolution(): string {
+    return config.get<string>(FilteredSolution, '');
 }
 
 export function getXmlSpaces(): string | number {
