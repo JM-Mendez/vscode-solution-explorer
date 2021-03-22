@@ -116,18 +116,16 @@ export class SolutionExplorerProvider extends vscode.Disposable implements vscod
 	private async createSolutionItems(): Promise<sln.TreeItem[]> {
 		this.children = [];
 		let solutionPaths = await Utilities.searchFilesInDir(this.workspaceRoot, '.sln');
-		if (solutionPaths.length <= 0) {
-			let altFolders = SolutionExplorerConfiguration.getAlternativeSolutionFolders();
-			for (let i = 0; i < altFolders.length; i++) {
-				let altSolutionPaths = await Utilities.searchFilesInDir(path.join(this.workspaceRoot, altFolders[i]), '.sln');
-				solutionPaths = [ ...solutionPaths, ...altSolutionPaths]
-			}
+    let altFolders = SolutionExplorerConfiguration.getAlternativeSolutionFolders();
+    for (let i = 0; i < altFolders.length; i++) {
+      let altSolutionPaths = await Utilities.searchFilesInDir(path.join(this.workspaceRoot, altFolders[i]), '.sln');
+      solutionPaths = [ ...solutionPaths, ...altSolutionPaths]
+    }
 
-			if (solutionPaths.length <= 0) {
-				this.children .push(await sln.CreateNoSolution(this, this.workspaceRoot));
-				return this.children;
-			}
-		}
+    if (solutionPaths.length <= 0) {
+      this.children .push(await sln.CreateNoSolution(this, this.workspaceRoot));
+      return this.children;
+    }
 
 		for(let i = 0; i < solutionPaths.length; i++) {
 			let s = solutionPaths[i];
